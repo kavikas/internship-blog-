@@ -1,10 +1,13 @@
-const BlogId = ({ params }) => {
-  const id = params.BlogId;
+'use client';
+import { useParams } from 'next/navigation';
+
+const BlogId = () => {
+  const { blogId } = useParams();
 
   return (
     <div className="detail-container">
-      <img src={`/image${id}.jpg`} className="detail-image" />
-      <p>This is the description for Blog {id}.</p>
+      <img src={`/image${blogId}.jpg`} className="detail-image" />
+      <p>This is the description for Blog {blogId}.</p>
     </div>
   );
 };

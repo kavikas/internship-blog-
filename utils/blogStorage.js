@@ -12,12 +12,15 @@ export const defaultBlogs = [
 ];
 
 export function getBlogs() {
-  if (typeof window === "undefined") return []; // Don't run on server
+  if (typeof window === "undefined") return [];
 
   const stored = localStorage.getItem("blogs");
   if (stored) {
     const parsed = JSON.parse(stored);
-    const merged = [...defaultBlogs.filter(d => !parsed.find(p => p.title === d.title)), ...parsed];
+    const merged = [
+      ...defaultBlogs.filter(d => !parsed.find(p => p.title === d.title)),
+      ...parsed
+    ];
     localStorage.setItem("blogs", JSON.stringify(merged));
     return merged;
   }
@@ -26,3 +29,7 @@ export function getBlogs() {
   return defaultBlogs;
 }
 
+export function saveBlogs(blogs) {
+  if (typeof window === "undefined") return;
+  localStorage.setItem("blogs", JSON.stringify(blogs));
+}
