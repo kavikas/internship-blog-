@@ -12,21 +12,17 @@ export const defaultBlogs = [
 ];
 
 export function getBlogs() {
-  if (typeof window !== "undefined") {
-    const stored = localStorage.getItem("blogs");
-    if (stored) {
-      const parsed = JSON.parse(stored);
-      const merged = [...defaultBlogs.filter(d => !parsed.find(p => p.title === d.title)), ...parsed];
-      localStorage.setItem("blogs", JSON.stringify(merged));
-      return merged;
-    }
-    localStorage.setItem("blogs", JSON.stringify(defaultBlogs));
-    return defaultBlogs;
+  if (typeof window === "undefined") return []; // Don't run on server
+
+  const stored = localStorage.getItem("blogs");
+  if (stored) {
+    const parsed = JSON.parse(stored);
+    const merged = [...defaultBlogs.filter(d => !parsed.find(p => p.title === d.title)), ...parsed];
+    localStorage.setItem("blogs", JSON.stringify(merged));
+    return merged;
   }
-  return [];
+
+  localStorage.setItem("blogs", JSON.stringify(defaultBlogs));
+  return defaultBlogs;
 }
-export function saveBlogs(blogs) {
-  if (typeof window !== "undefined") {
-    localStorage.setItem("blogs", JSON.stringify(blogs));
-  }
-}
+
